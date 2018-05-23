@@ -1,0 +1,10 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+logout:
+    path: /logout
+
+default_security_target:
+    path: /tableau-de-bord

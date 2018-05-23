@@ -1,0 +1,36 @@
+{% extends ('@App/Layout/backoffice-base.html.twig') %}
+
+{% block title %}Créer un ticket{% endblock %}
+
+{% block body %}
+    <section class="form-all">
+
+        <h2 class="ticket-title">Créer un ticket</h2>
+        <p class="notice-field text-center">* champs obligatoires</p>
+        <div class="row">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
+                {{ form_start(addTicketForm) }}
+                <div>{{ form_row(addTicketForm.product) }}</div>
+                <div>{{ form_row(addTicketForm.category_type) }}</div>
+                <div>{{ form_row(addTicketForm.category) }}</div>
+                <div>{{ form_row(addTicketForm.subject) }}</div>
+                <div>{{ form_row(addTicketForm.content) }}</div>
+                <div>{{ form_row(addTicketForm.origin) }}</div>
+                <div>{{ form_row(addTicketForm.ticket_type) }}</div>
+                <div>{{ form_row(addTicketForm.emergency) }}</div>
+                <div>{{ form_row(addTicketForm.upload) }}</div>
+                <div class="text-center">{{ form_row(addTicketForm.submit) }}
+                    {{ form_row(addTicketForm._token) }}
+                </div>
+                {{ form_end(addTicketForm) }}
+                <div class="text-center">
+                    <a class="btn btn-back" aria-hidden="true" href="{{ path('ticket_index', {'page': 1}) }}">Retour à la liste des tickets</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/js/form.add-category-title.js') }}"></script>
+{% endblock %}

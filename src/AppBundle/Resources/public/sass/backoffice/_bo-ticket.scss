@@ -1,0 +1,114 @@
+.ticket-filter-block {
+  border: solid $secondary-color 0.1rem;
+  padding: 2rem 0 1rem 0;
+  margin: 2rem 0 5rem 0;
+}
+
+.ticket-filter-field {
+  div {
+    padding-bottom: 2rem;
+  }
+}
+
+.ticket-table-block {
+  border: solid $primary-color 0.1rem;
+  padding: 0;
+}
+
+.ticket-edit-margin{
+  margin-top: 2rem;
+}
+
+.no-margin-no-padding {
+  margin: 0;
+  padding: 0;
+}
+
+.ticket-title {
+  padding-bottom: 2rem;
+}
+
+.ticket-subject {
+  text-align: justify;
+  font-size: 1.6rem;
+  font-weight: bold;
+  a {
+    color: darken($primary-color, 10%);
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+}
+
+.btn-back {
+  background-color: grey;
+  color: white;
+  border-radius: 0;
+  font-weight: bold;
+  vertical-align: middle;
+  &:hover {
+    background-color: lighten(grey, 20%);
+  }
+}
+
+.comment-border {
+  border-top: solid $primary-color 0.1rem;
+  margin-top: 2rem;
+}
+
+.comment-unit {
+  border: 0.1rem solid $primary-color;
+  border-radius: 0;
+  margin: 2rem 0;
+  padding: 1rem;
+}
+
+.comment-content1 {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.comment-content2 {
+  border: 0.1rem solid lightgrey;
+}
+
+
+.ui-datepicker-title {
+  background-color: lighten($secondary-color, 20%);
+  font-weight: bold;
+  text-align: center;
+}
+
+.ui-datepicker-week-end {
+  background-color: lighten($secondary-color, 20%);
+  font-weight: bold;
+  text-align: center;
+}
+
+.ui-datepicker-calendar {
+  background-color: lighten($secondary-color, 20%);
+  font-weight: bold;
+  text-align: center;
+  color: $paragraph-color;
+  th {
+    padding: 0.3rem;
+  }
+}
+
+.ui-state-default {
+  color: black;
+}
+
+.ui-datepicker-header {
+  background-color: lighten($secondary-color, 20%);
+  text-align: center;
+}
+
+.ui-corner-all {
+  color: black;
+  font-weight: bold;
+}
+
+.ui-state-default {
+  padding: 0.3rem;
+}

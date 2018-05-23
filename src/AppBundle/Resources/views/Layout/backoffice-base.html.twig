@@ -1,0 +1,29 @@
+{# put assets for dev && dist for prod #}
+{% set environnement = 'assets' %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    {% include '@App/Partials/bo-head.html.twig' %}
+    {% block stylesheets %}{% endblock %}
+    <title>{% block title %}{% endblock %} - CommunIt</title>
+</head>
+<body>
+    <header>
+        {% include '@App/Partials/bo-sideBar.html.twig' %}
+        {% include '@App/Partials/bo-header.html.twig' %}
+        {% include '@App/Partials/bo-topBar.html.twig' %}
+    </header>
+
+    <main id="bo-main-content" class="main">
+        {% block body %}{% endblock %}
+
+        <footer>
+            {% include '@App/Partials/bo-footer.html.twig' %}
+        </footer>
+    </main>
+
+    {% include '@App/Partials/bo-foot.html.twig' %}
+    {% block javascripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!-- Modal fullscreen -->
+<div class="modal modal-fullscreen fade" id="modal-fullscreen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span class="closed-cross" aria-hidden="true">&times;</span>
+                    <span class="sr-only">Fermer</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               {{ mentions.content|raw }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default closed-text" data-dismiss="modal"><p>Fermer</p></button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,181 @@
+{% extends '@App/Layout/backoffice-base.html.twig' %}
+
+{% block title %}
+    {{ evolution.title }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+
+        <div class="row note-evolution">
+            {% if is_granted('ROLE_PROJECT_RESP') %}
+                {% if teStatus == true  %}
+                    <div class="col-lg-12">
+                        <div class="bo-evolution">
+                            <div class="bo-top-evolution">
+                                <div class="be-flex">
+
+                                    <div class="evolution-notes">
+                                        <p class="avg-note">{{ score }}</p>
+                                        <p class="nb-notes"><span>{{ count }}</span> notes</p>
+                                    </div>
+
+                                    <div class="evolution-note-titles">
+                                        {% if validity == 3 %}
+                                            <h2 class="vote-title">L'évaluation de cette évolution est en cours</h2>
+                                        {% endif %}
+                                        {% if validity == 2 %}
+                                            <h2 class="vote-title">Votez pour cette évolution !</h2>
+                                        {% endif %}
+                                        {% if validity == 1 %}
+                                            <h2 class="vote-title">Vous avez déja voté pour cette évolution.</h2>
+                                            <h2 class="vote-title">Vous pouvez modifier votre note. Elle est de <span>{{ noteUser }}/10</span>.</h2>
+                                        {% endif %}
+                                        {% if validity == 0 %}
+                                            <h2 class="vote-title">Votre entreprise a déja voté pour cette évolution.<br>
+                                                La note est de <span>{{ noteAnotherUser }}</span>/10.
+                                            </h2>
+                                        {% endif %}
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if validity == 1 or validity == 2 %}
+                                {{ form_start(noteForm, {'attr': {
+                                    'id': 'app_bundle_note_userTechnicalEvolution'
+                                }}) }}
+                                <p class="remarque-small"><i>* un seul click sur l'étoile enregistrera votre note</i></p>
+                                <div class="error-box"></div>
+                                {% spaceless %}
+                                    <div class="form-group controls rating" data-index-number="{{ evolution.id }}">
+                                        {% for i in 0..9 %}
+                                            <label class="label-star-link" data-index-number="{{ i + 1 }}">
+                                                {{ form_widget(noteForm.note[i], {'attr': {'class': 'star-link' }}) }}
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                {% endspaceless %}
+                                {{ form_end(noteForm) }}
+                                <div class="rating-counter">
+                                    <p class="rating-counter-value"><span class="rating-value"></span> / 10</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="row unit-evolution">
+            <div class="col-lg-12">
+                <div class="evolution-title"><h2>{{ evolution.title }}</h2></div>
+                <div class="evolution-sum-up"><h4>{{ evolution.sumUp }}</h4></div>
+                <div class="row evo-cols">
+                    <ul class="col-xs-12 col-lg-6 evo-list-infos">
+                        <li><p><span class="evo-label">Status de l'évolution : </span>
+                                <span class="info-evo">{{ evolution.status }}</span></p></li>
+                        <li><p><span class="evo-label">Type de la catégorie : </span>
+                                <span class="info-evo">{{ evolution.category.type }}</span></p></li>
+                        <li><p><span class="evo-label">Nom de la catégorie : </span>
+                                <span class="info-evo">{{ evolution.category.title }}</span></p></li>
+                        <li><p><span class="evo-label">Origine de la demande : </span>
+                                <span class="info-evo">{{ evolution.origin }}</span></p></li>
+                        <li><p><span class="evo-label">Date de création : </span>
+                                <span class="info-evo">{{ evolution.creationDate|date("d/m/Y") }}</span></p></li>
+                        {% if evolution.updateDate is defined %}
+                            <li><p><span class="evo-label">Date d'édition : </span>
+                                    <span class="info-evo">{{ evolution.updateDate|date("d/m/Y") }}</span></p></li>
+                        {% endif %}
+                        <li><p><span class="evo-label">Date de fin : </span>
+                                <span class="info-evo">{{ evolution.expectedDelay|date("d/m/Y") }}</span></p></li>
+                    </ul>
+                    <div class="col-xs-12 col-lg-6 evolution-content-block">
+                        <h4>Détails : </h4>
+                        <p class="evolution-content">{{ evolution.content }}</p>
+                    </div>
+                </div>
+                {% if is_granted('ROLE_ADMIN') or app.user.id == evolution.user.id %}
+                    <a href="{{ path('evolutionUpdate', {
+                        'technicalEvolution': evolution.id
+                    }) }}">Modifier l'évolution</a>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if evolution.status != 'En attente' %}
+
+            <div class="row">
+                <div class="col-lg-12 no-padding">
+                    <div class="add-new-comment">
+                        {{ form_start(addForm, {'attr': {
+                            'id': 'app_bundle_comment_userTechnicalEvolution',
+                            'data-index-number': evolution.id
+                        }}) }}
+                        {{ form_end(addForm) }}
+                    </div>
+                    <div class="comment-list">
+                    </div>
+                </div>
+            </div>
+            <div class="loader-wcs" data-index-number="{{ evolution.id }}"></div>
+        {% endif %}
+    </div>
+
+    {# comment delete modal #}
+    <div id="comment-modal-delete" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Supprimer un commentaire</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Êtes-vous sûr de vouloir supprimer ce commentaire ?</p>
+                    <p class="delete-value"></p>
+                    <a id="comment-link-delete" href="" class="text-color-1" data-dismiss="modal">
+                        Je confirme vouloir supprimer ce commentaire.
+                    </a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# comment update modal #}
+    <div id="comment-modal-update" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Modifier un commentaire</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(updateForm, {
+                        'attr': {'id': 'app_bundle_comment_userTechnicalEvolution_update'}
+                    }) }}
+                    {{ form_label(updateForm.comment) }}
+                    {{ form_widget(updateForm.comment, {
+                        'attr': {'class': 'app_bundle_comment_userTechnicalEvolution_updateField'}
+                    }) }}
+                    {{ form_end(updateForm) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/js/page.evolution-unit.js') }}"></script>
+{% endblock %}
